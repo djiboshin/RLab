@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"> 
+<title>Remote Lab</title>
+	<link rel="stylesheet" type="text/css" href="css/-lazy.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-grid.min.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-slider.min.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap-utilities.min.css">
+	<link rel="stylesheet" type="text/css" href="css/custom.css?<?php echo filemtime('css/custom.css'); ?>">
+	
+	<script src="js/jquery-3.5.1.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/bootstrap-slider.min.js"></script>
+</head>
+<body class="main-page" onload="init_api()">
+<div class="main-content-wrapper">
+
+	<div class="main-content-left">
+		<div class="osciloscope-wrapper-container">
+			<div class="osciloscope-wrapper-container-values">
+			<div class="column-title">Oscilloscope</div>
+				<div class="osciloscope-input-ch1">
+					<form id="osciloscope-input-ch1">
+						<div class="osciloscope-input input-ch1">
+							<div class="form-check form-switch">
+								<label class="form-check-label" for="osc-input-ch1">CH1 input</label>
+								<input class="form-check-input" name="f[osc-input-ch1]" type="hidden" id="osc-input-ch1-hidden" value="OFF" />
+								<input class="form-check-input" name="f[osc-input-ch1]" type="checkbox" id="osc-input-ch1" value="ON" />
+							</div>
+						</div>
+					</form>
+					<form id="osciloscope-input-ch1-values">
+					<input class="form-check-input" name="f[get-osciloscope-ch1-values-hidden]" type="hidden" id="get-osciloscope-ch1-values-hidden" value="ON" >
+						<div id="div-osciloscope-input-ch1-values">
+							<div class="osciloscope-input-ch1-vpp"><span class="input-values-label">Vpp: </span><span id="osciloscope-input-ch1-vpp"></span></div>
+							<div class="osciloscope-input-ch1-vamp"><span class="input-values-label">Vamp: </span><span id="osciloscope-input-ch1-vamp"></span></div>
+							<div class="osciloscope-input-ch1-freq"><span class="input-values-label">Freq: </span><span id="osciloscope-input-ch1-freq"></span></div>
+						</div>
+						<div id="div-submit-osciloscope-input-ch1"><button id="submit-osciloscope-input-ch1" type="submit" disabled="disabled">Get measurement</button></div>
+					</form>
+				</div>
+				<div class="osciloscope-input-ch2">
+					<form id="osciloscope-input-ch2">
+						<div class="osciloscope-input input-ch2">
+							<div class="form-check form-switch">
+								<label class="form-check-label" for="osc-input-ch2">CH2 input</label>
+								<input class="form-check-input" name="f[osc-input-ch2]" type="hidden" id="osc-input-ch2-hidden" value="OFF" />
+								<input class="form-check-input" name="f[osc-input-ch2]" type="checkbox" id="osc-input-ch2" value="ON" />
+							</div>
+						</div>
+					</form>
+					<form id="osciloscope-input-ch2-values">
+					<input class="form-check-input" name="f[get-osciloscope-ch2-values-hidden]" type="hidden" id="get-osciloscope-ch2-values-hidden" value="ON" >
+						<div id="div-osciloscope-input-ch2-values">
+							<div class="osciloscope-input-ch2-vpp"><span class="input-values-label">Vpp: </span><span id="osciloscope-input-ch2-vpp"></span></div>
+							<div class="osciloscope-input-ch2-vamp"><span class="input-values-label">Vamp: </span><span id="osciloscope-input-ch2-vamp"></span></div>
+							<div class="osciloscope-input-ch2-freq"><span class="input-values-label">Freq: </span><span id="osciloscope-input-ch2-freq"></span></div>
+						</div>
+						<div id="div-submit-osciloscope-input-ch2"><button id="submit-osciloscope-input-ch2" type="submit" disabled="disabled">Get measurement</button></div>
+					</form>
+				</div>
+			</div>
+			<div class="osciloscope-wrapper-container-image">
+				<div id="osciloscope-screenshot">
+					<img src="images/oscilloscope-welcome-screenshot.png">
+				</div>
+				<div class="osciloscope-autoset-screenshot">
+					<form id="osciloscope-autoset">
+						<input class="form-check-input" name="f[get-osciloscope-autoset]" type="hidden" id="get-osciloscope-sutoset-hidden" value="ON" >
+						<div><button id="submit-osciloscope-autoset" type="submit">Autoset</button></div>
+					</form>
+					<form id="osciloscope-get-screenshot">
+						<input class="form-check-input" name="f[get-osciloscope-screenshot]" type="hidden" id="get-osciloscope-screenshot-hidden" value="ON" >
+						<div><button id="submit-osciloscope-get-screenshot" type="submit">Get screenshot</button></div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="setup-wrapper-container">
+			<div class="setup-wrapper-container-values">
+				<div class="column-title">Setup</div>
+				<div class="setup-container-values">
+					<form id="setup-values">
+						<div class="set-setup-coordinate-value">
+							<label class="form-check-label" for="set-setup-coordinate-value">Coordinate, mm</label>
+							<input class="form-check-input" name="f[set-setup-coordinate-value]" type="text" id="set-setup-coordinate-value" >
+						</div>
+						<div class="setup-capacity1">
+							<label class="form-check-label" for="setup-capacity1">Capacity1</label>
+							<select id="setup-capacity1" size="1" name="f[setup-capacity1]">
+								<option disabled>Select Capacity1</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+							</select>
+						</div>
+						<div class="setup-capacity2">
+							<label class="form-check-label" for="setup-capacity2">Capacity2</label>
+							<select id="setup-capacity2" size="1" name="f[setup-capacity2]">
+								<option disabled>Select Capacity2</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+							</select>
+						</div>
+						<div id="div-submit-setup-values"><button id="submit-setup-values" type="submit">Submit</button></div>
+
+					</form>
+						<form id="get-setup-values">
+							<input class="form-check-input" name="f[get-setup-values]" type="hidden" id="get-setup-values-hidden" value="GET-SETUP-VALUES" >
+							<div id="div-submit-get-setup-values"><button id="submit-get-setup-values" type="submit">Get values</button></div>
+						</form>
+				</div>
+			</div>
+			<div class="video-wrapper-container">
+				<div class="video-wrapper">
+					<iframe width="500" height="300" src="https://www.youtube.com/embed/q0hyYWKXF0Q" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+				</div>
+			</div>
+		</div>
+		<div class="generator-wrapper-container">
+			<div class="generator-output-wrapper-container-values">
+			<div class="column-title">Generator</div>
+				<form id="generator-output-ch1">
+					<div class="generator-output-ch1">
+						<div class="generator-output output-ch1">
+							<div class="form-check form-switch">
+								<label class="form-check-label" for="gen-output-ch1">CH1 Output</label>
+								<input class="form-check-input" name="f[gen-output-ch1]" type="hidden" id="gen-output-ch1-hidden" value="OFF" >
+								<input class="form-check-input" name="f[gen-output-ch1]" type="checkbox" id="gen-output-ch1" value="ON" >
+							</div>
+						</div>
+				</form>
+				<form id="generator-output-ch1-values">
+						<div id="id-generator-ch1-out-v-freq-wrapper">
+							<div id="generator-div-ch1-out-v" class="generator-ch1-out-v">
+								<input id="generator-ch1-out-v" name="f[generator-ch1-out-v]" data-slider-id='ex1Slider' type="text" data-slider-min="0.1" data-slider-max="10" data-slider-step="0.1" data-slider-value="0.1"/>
+								<script type='text/javascript'>
+									var slider = new Slider("#generator-ch1-out-v", {
+										tooltip: 'always'
+									});
+								</script>
+								<label class="form-check-label" for="generator-ch1-out-v">CH1 Vpp</label>
+							</div>
+							<div id="generator-div-ch1-out-freq" class="generator-ch1-out-freq">
+								<input id="generator-ch1-out-freq" name="f[generator-ch1-out-freq]" type="text"/>
+								<label class="form-check-label" for="generator-ch1-out-freq">CH1 Freq</label>
+							</div>
+							<div id="generator-div-ch1-submit">
+								<button type="submit" id="submit-generator-output-ch1" disabled="disabled">Submit</button>
+							</div>
+						</div>
+					</div>
+				</form>
+				<form id="generator-output-ch2">
+					<div class="generator-output-ch2">
+						<div class="generator-output output-ch2">
+							<div class="form-check form-switch">
+								<label class="form-check-label" for="gen-output-ch2">CH2 Output</label>
+								<input class="form-check-input" name="f[gen-output-ch2]" type="hidden" id="gen-output-ch2-hidden" value="OFF" >
+								<input class="form-check-input" name="f[gen-output-ch2]" type="checkbox" id="gen-output-ch2" value="ON" >
+							</div>
+						</div>
+				</form>
+				<form id="generator-output-ch2-values">
+						<div id="id-generator-ch2-out-v-freq-wrapper">
+							<div id="generator-div-ch2-out-v" class="generator-ch2-out-v">
+								<input id="generator-ch2-out-v" name="f[generator-ch2-out-v]" data-slider-id='ex1Slider' type="text" data-slider-min="0.1" data-slider-max="10" data-slider-step="0.1" data-slider-value="0.1"/>
+								<script type='text/javascript'>
+									var slider = new Slider("#generator-ch2-out-v", {
+										tooltip: 'always'
+									});
+								</script>
+								<label class="form-check-label" for="generator-ch1-out-v">CH2 Vpp</label>
+							</div>
+							<div id="generator-div-ch2-out-freq" class="generator-ch2-out-freq">
+								<input id="generator-ch2-out-freq" name="f[generator-ch2-out-freq]" type="text" />
+								<label class="form-check-label" for="generator-ch2-out-freq">CH2 Freq</label>
+							</div>
+						<div id="generator-div-ch2-submit">
+							<button type="submit" id="submit-generator-output-ch2" disabled="disabled">Submit</button>
+						</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="main-content-right">
+		<div class="column-title">History</div>
+		<div id="history"></div>
+	</div>
+</div>
+
+<script src="js/custom.js"></script>
+</body>
+</html>
